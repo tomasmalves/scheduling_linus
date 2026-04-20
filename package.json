@@ -1,0 +1,20 @@
+{
+  "name": "scheduling_linus",
+  "version": "1.0.1",
+  "description": "Shows Emani Cheng's scheduling availability from Athenahealth",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomasmalves/scheduling_linus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

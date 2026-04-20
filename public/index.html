@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emani Cheng – Availability</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div class="header__badge">Well Life Medicine</div>
+      <h1 class="header__title">Emani Cheng, PMHNP</h1>
+      <p class="header__subtitle">Psychiatry &middot; Telehealth &middot; Hillsboro, OR</p>
+    </header>
+
+    <nav class="month-toggle" role="tablist" aria-label="Month selector">
+      <button role="tab" id="btn-current" class="month-toggle__btn" aria-selected="false" onclick="loadMonth('current')">
+        <span class="month-toggle__label" id="label-current"></span>
+      </button>
+      <button role="tab" id="btn-next" class="month-toggle__btn month-toggle__btn--active" aria-selected="true" onclick="loadMonth('next')">
+        <span class="month-toggle__label" id="label-next"></span>
+      </button>
+    </nav>
+
+    <section class="calendar-card" aria-live="polite">
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Loading availability&hellip;</p>
+      </div>
+
+      <div id="error" class="error" hidden>
+        <p id="error-msg"></p>
+        <button class="retry-btn" onclick="retry()">Try Again</button>
+      </div>
+
+      <div id="calendar-wrap" hidden>
+        <h2 class="calendar-card__month" id="month-title"></h2>
+        <div class="calendar-grid" id="calendar-grid"></div>
+        <p class="calendar-card__summary" id="summary"></p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Data sourced from <a href="https://consumer.scheduling.athena.io/?locationId=21276-2&practitionerId=21276-39" target="_blank" rel="noopener">Athenahealth Scheduling</a></p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
