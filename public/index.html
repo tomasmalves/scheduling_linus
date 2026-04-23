@@ -17,11 +17,20 @@
       <p class="header__subtitle">Psychiatry &middot; Telehealth &middot; Hillsboro, OR</p>
     </header>
 
+    <nav class="month-toggle" role="tablist" aria-label="Patient type selector">
+      <button role="tab" id="btn-new" class="month-toggle__btn month-toggle__btn--active" aria-selected="true" onclick="setType('new')">
+        New Patient
+      </button>
+      <button role="tab" id="btn-existing" class="month-toggle__btn" aria-selected="false" onclick="setType('existing')">
+        Existing Patient
+      </button>
+    </nav>
+
     <nav class="month-toggle" role="tablist" aria-label="Month selector">
-      <button role="tab" id="btn-current" class="month-toggle__btn" aria-selected="false" onclick="loadMonth('current')">
+      <button role="tab" id="btn-current" class="month-toggle__btn" aria-selected="false" onclick="setMonth('current')">
         <span class="month-toggle__label" id="label-current"></span>
       </button>
-      <button role="tab" id="btn-next" class="month-toggle__btn month-toggle__btn--active" aria-selected="true" onclick="loadMonth('next')">
+      <button role="tab" id="btn-next" class="month-toggle__btn month-toggle__btn--active" aria-selected="true" onclick="setMonth('next')">
         <span class="month-toggle__label" id="label-next"></span>
       </button>
     </nav>

@@ -5,6 +5,7 @@ const MONTH_NAMES = [
 ];
 
 let activeMonth = 'next';
+let activeType = 'new';
 const cache = {};
 
 function initLabels() {
@@ -17,28 +18,41 @@ function initLabels() {
     `${MONTH_NAMES[nxt.getMonth()]} ${nxt.getFullYear()}`;
 }
 
-async function loadMonth(which) {
+function setMonth(which) {
   activeMonth = which;
-
   document.getElementById('btn-current').classList.toggle('month-toggle__btn--active', which === 'current');
   document.getElementById('btn-next').classList.toggle('month-toggle__btn--active', which === 'next');
   document.getElementById('btn-current').setAttribute('aria-selected', which === 'current');
   document.getElementById('btn-next').setAttribute('aria-selected', which === 'next');
+  load();
+}
 
-  if (cache[which]) {
-    render(cache[which]);
+function setType(which) {
+  activeType = which;
+  document.getElementById('btn-new').classList.toggle('month-toggle__btn--active', which === 'new');
+  document.getElementById('btn-existing').classList.toggle('month-toggle__btn--active', which === 'existing');
+  document.getElementById('btn-new').setAttribute('aria-selected', which === 'new');
+  document.getElementById('btn-existing').setAttribute('aria-selected', which === 'existing');
+  load();
+}
+
+async function load() {
+  const key = `${activeType}:${activeMonth}`;
+
+  if (cache[key]) {
+    render(cache[key]);
     return;
   }
 
   showLoading();
 
   try {
-    const res = await fetch(`/api/availability?month=${which}`);
+    const res = await fetch(`/api/availability?month=${activeMonth}&type=${activeType}`);
     const data = await res.json();
 
     if (!data.success) throw new Error(data.error || 'Unknown error');
 
-    cache[which] = data;
+    cache[key] = data;
     render(data);
   } catch (err) {
     showError(err.message);
@@ -89,11 +103,12 @@ function render(data) {
     grid.appendChild(cell);
   }
 
+  const typeLabel = activeType === 'new' ? 'new patients' : 'existing patients';
   const summary = document.getElementById('summary');
   if (dates.length > 0) {
-    summary.innerHTML = `<strong>Emani is available on:</strong> ${dates.join(', ')}`;
+    summary.innerHTML = `<strong>Available for ${typeLabel} on:</strong> ${dates.join(', ')}`;
   } else {
-    summary.innerHTML = 'Emani has no availability this month.';
+    summary.innerHTML = `No availability for ${typeLabel} this month.`;
   }
 }
 
@@ -111,11 +126,12 @@ function showError(msg) {
 }
 
 function retry() {
-  delete cache[activeMonth];
-  loadMonth(activeMonth);
+  const key = `${activeType}:${activeMonth}`;
+  delete cache[key];
+  load();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   initLabels();
-  loadMonth('next');
+  load();
 });
